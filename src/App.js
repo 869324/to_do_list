@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 
+import Header from './Components/Header/Header';
 import Input from './Components/Input/Input';
 import List from './Components/List/List';
 
@@ -27,8 +28,11 @@ class App extends React.Component {
     console.log(this.state.todos)
     return (
       <div className="App">
-        <Input add={this.add} />
-        <List todos={this.state.todos} />
+        <Header />
+        <main>
+          <Input add={this.add} />
+          <List todos={this.state.todos} />
+        </main>
       </div>
     );
   }
