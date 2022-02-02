@@ -40,14 +40,26 @@ class Input extends React.Component {
     }
 
     render() {
-        return (
-            <div className="Input">
+        const disable = this.state.taskName == "" || this.state.desc == "" || this.state.date == ""
 
+        let button;
+        if (disable) {
+            button = <button onClick={this.add} className="disabled" disabled>Add Task</button>
+        }
+        else {
+            button = <button onClick={this.add}>Add Task</button>
+        }
+        return (
+            <div id="input">
+                <h2>Add Tasks</h2>
                 <form>
                     <input id="taskName" type="text" onChange={this.changeName} placeholder="Task Name" required />
                     <input id="desc" type="text" onChange={this.changeDesc} placeholder="Task Description" required />
-                    <label id="dateLabel">Date Due<input id="date" type="date" onChange={this.changeDate} required /></label>
-                    <button onClick={this.add}>Add Task</button>
+                    <div id="dateDiv">
+                        <label id="dateLabel">Date Due:</label>
+                        <input id="date" type="date" onChange={this.changeDate} required />
+                    </div>
+                    {button}
                 </form>
 
             </div>

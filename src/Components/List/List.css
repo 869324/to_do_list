@@ -1,0 +1,15 @@
+#list {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    text-align: start;
+}
