@@ -33,9 +33,11 @@ class Input extends React.Component {
         event.preventDefault();
 
         this.props.add({
-            taskName: this.state.taskName,
+            id: this.props.todos.length,
+            name: this.state.taskName,
             desc: this.state.desc,
-            date: this.state.date
+            date: this.state.date,
+            completed: false
         });
     }
 
@@ -50,7 +52,7 @@ class Input extends React.Component {
             button = <button onClick={this.add}>Add Task</button>
         }
         return (
-            <div id="input">
+            <div id="Input">
                 <h2>Add Tasks</h2>
                 <form>
                     <input id="taskName" type="text" onChange={this.changeName} placeholder="Task Name" required />

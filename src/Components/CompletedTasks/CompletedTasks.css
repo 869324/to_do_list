@@ -1,8 +1,9 @@
-#List {
-    width: 100%;
+#list {
+    width: 80%;
+    margin: auto;
 }
 
-#listTable {
+#completeTable {
     width: 80%;
     padding: 10px;
     border: 1px solid teal;
