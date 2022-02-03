@@ -1,10 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;1,200&family=Rowdies&display=swap');
+
 #header {
     width: 80vw;
     margin: auto;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid teal;
+}
+
+h1 {
+    margin: 0px;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 #user {
@@ -15,6 +23,7 @@
 
 #username {
     margin-right: 20px;
+    font-weight: bold;
 }
 
 #avatar {
@@ -27,9 +36,37 @@
 #headerDateLabel {
     font-weight: bold;
     text-transform: uppercase;
+    font-size: 20px;
+    font-family: Rowdies;
+    color: black;
 }
 
 #headerDate {
     font-weight: normal;
     margin-left: 10px;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.link {
+    font-size: 18px;
+    margin: 15px;
+    text-decoration-line: none;
+    color: black;
+    text-transform: uppercase;
+    font-family: Rowdies;
+}
+
+.link:hover {
+    text-decoration-line: underline;
+}
+
+.active {
+    font-size: 18px;
+    margin: 15px;
+    text-decoration-line: none;
+    color: black;
+    text-transform: uppercase;
+    font-family: Rowdies;
+    text-decoration-line: underline;
 }
