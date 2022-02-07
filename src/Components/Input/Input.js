@@ -1,24 +1,19 @@
 import React from 'react';
-import './Input.css';
+
+import styles from './Input.module.css';
 
 class Input extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            taskName: "",
             desc: "",
             date: "",
         }
 
-        this.changeName = this.changeName.bind(this);
         this.changeDesc = this.changeDesc.bind(this);
         this.changeDate = this.changeDate.bind(this);
         this.add = this.add.bind(this);
-    }
-
-    changeName(event) {
-        this.setState({ taskName: event.target.value });
     }
 
     changeDesc(event) {
@@ -34,32 +29,35 @@ class Input extends React.Component {
 
         this.props.add({
             id: this.props.todos.length,
-            name: this.state.taskName,
             desc: this.state.desc,
             date: this.state.date,
             completed: false
         });
+
+        this.setState({
+            date: "",
+            desc: ""
+        });
     }
 
     render() {
-        const disable = this.state.taskName == "" || this.state.desc == "" || this.state.date == ""
+        const disable = this.state.desc == "" || this.state.date == "";
 
         let button;
         if (disable) {
-            button = <button onClick={this.add} className="disabled" disabled>Add Task</button>
+            button = <button onClick={this.add} className={styles.disabled} disabled>Add Task</button>
         }
         else {
-            button = <button onClick={this.add}>Add Task</button>
+            button = <button id={styles.button} onClick={this.add}>Add Task</button>
         }
         return (
-            <div id="Input">
-                <h2>Add Tasks</h2>
-                <form>
-                    <input id="taskName" type="text" onChange={this.changeName} placeholder="Task Name" required />
-                    <input id="desc" type="text" onChange={this.changeDesc} placeholder="Task Description" required />
-                    <div id="dateDiv">
-                        <label id="dateLabel">Date Due:</label>
-                        <input id="date" type="date" onChange={this.changeDate} required />
+            <div id={styles.Input}>
+                <h2 id={styles.h2}>Add Tasks</h2>
+                <form className={styles.form}>
+                    <input id={styles.desc} type="text" value={this.state.desc} onChange={this.changeDesc} placeholder="Task Description" required />
+                    <div id={styles.dateDiv}>
+                        <label id={styles.dateLabel}>Date Due:</label>
+                        <input id={styles.date} type="date" value={this.state.date} onChange={this.changeDate} required />
                     </div>
                     {button}
                 </form>
