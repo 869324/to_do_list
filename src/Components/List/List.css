@@ -18,3 +18,7 @@ h2 {
 td, th {
     text-align: start;
 }
+
+p {
+    text-align: center;
+}
