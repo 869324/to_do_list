@@ -1,60 +1,49 @@
-import React from 'react';
 import styles from './Editor.module.css';
+import { editTask } from '../Redux/todoReducer';
 
-class Editor extends React.Component {
-    constructor (props) {
-        super(props);
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import swal from 'sweetalert';
 
-        this.state = {
-            desc: "",
-            date: ""
-        }
+export default function Editor(props) {
+    const dispatch = useDispatch();
+    const [desc, setDesc] = useState(props.task.desc);
+    const [date, setDate] = useState(props.task.date);
 
-        this.changeDesc = this.changeDesc.bind(this);
-        this.changeDate = this.changeDate.bind(this);
-        this.edit = this.edit.bind(this);
+    function changeDesc(event) {
+        setDesc(event.target.value);
     }
 
-    componentDidMount() {
-        this.setState({
-            desc: this.props.task.desc,
-            date: this.props.task.date
+    function changeDate(event) {
+        setDate(event.target.value);
+    }
+
+    function submit(event) {
+        event.preventDefault();
+
+        dispatch(editTask({
+            taskId: props.task.taskId,
+            desc: desc,
+            date: date,
+            completed: props.task.completed
+        }));
+        swal("Task has been updated!", {
+            icon: "success",
         });
     }
 
-    changeDesc(event) {
-        this.setState({desc: event.target.value});
-    }
-
-    changeDate(event) {
-        this.setState({date: event.target.value});
-    }
-
-    edit() {
-        this.props.edit({
-            id: this.props.task.id,
-            desc: this.state.desc,
-            date: this.state.date
-        });
-
-        this.props.showEditor(this.props.task.id, false);
-    }
-
-    render() {
-        return(
-            <div className={styles.editor}>
-                <div className={styles.content}>
-                    <button id={styles.closeBtn} onClick={() => this.props.showEditor(this.props.task.id, false)}>+</button>
-                    <h2>Edit task: {this.props.task.id + 1}</h2>
-                    <div id={styles.form}>
-                        <input className={styles.input} value={this.state.desc} onChange={this.changeDesc} />
-                        <input className={styles.input} type="date" value={this.state.date} onChange={this.changeDate} />
-                        <button id={styles.editBtn} onClick={this.edit}>Edit</button>
-                    </div>
-                </div>
+    return (
+        <div className={styles.editor}>
+            <div className={styles.content}>
+                <button id={styles.closeBtn} onClick={() => props.setEditor(false)}>+</button>
+                <h2>Edit task: {props.task.taskId}</h2>
+                <form id={styles.form} onSubmit={submit}>
+                    <input className={styles.input} value={desc} onChange={changeDesc} required />
+                    <input className={styles.input} type="date" value={date} onChange={changeDate} required />
+                    <button id={styles.editBtn} >Edit</button>
+                </form>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-export default Editor;

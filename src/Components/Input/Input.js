@@ -1,70 +1,81 @@
 import React from 'react';
-
 import styles from './Input.module.css';
 
-class Input extends React.Component {
-    constructor(props) {
-        super(props);
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
-        this.state = {
-            desc: "",
-            date: "",
+import { addTask } from '../Redux/todoReducer';
+
+function Input(props) {
+    const tasks = useSelector(state => state);
+    const dispatch = useDispatch();
+
+    const [desc, setDesc] = useState("");
+    const [date, setDate] = useState("");
+
+    function getRandomId() {
+        const id = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        const index = tasks.find(task => task.taskId == id);
+        if (index > -1) {
+            getRandomId();
         }
 
-        this.changeDesc = this.changeDesc.bind(this);
-        this.changeDate = this.changeDate.bind(this);
-        this.add = this.add.bind(this);
+        else {
+            return id;
+        }
     }
 
-    changeDesc(event) {
-        this.setState({ desc: event.target.value });
+    function changeDesc(event) {
+        setDesc(event.target.value);
     }
 
-    changeDate(event) {
-        this.setState({ date: event.target.value });
+    function changeDate(event) {
+        setDate(event.target.value);
     }
 
-    add(event) {
+    function submit(event) {
         event.preventDefault();
 
-        this.props.add({
-            id: this.props.todos.length,
-            desc: this.state.desc,
-            date: this.state.date,
+        const task = {
+            taskId: getRandomId(),
+            desc: desc,
+            date: date,
             completed: false
+        };
+
+        dispatch(addTask(task));
+        swal("Task has been added!", {
+            icon: "success",
         });
 
-        this.setState({
-            date: "",
-            desc: ""
-        });
+        // const navigate = useNavigate();
+        // navigate("/");
     }
 
-    render() {
-        const disable = this.state.desc == "" || this.state.date == "";
-
-        let button;
-        if (disable) {
-            button = <button onClick={this.add} className={styles.disabled} disabled>Add Task</button>
-        }
-        else {
-            button = <button id={styles.button} onClick={this.add}>Add Task</button>
-        }
-        return (
-            <div id={styles.Input}>
-                <h2 id={styles.h2}>Add Tasks</h2>
-                <form className={styles.form}>
-                    <input id={styles.desc} type="text" value={this.state.desc} onChange={this.changeDesc} placeholder="Task Description" required />
-                    <div id={styles.dateDiv}>
-                        <label id={styles.dateLabel}>Date Due:</label>
-                        <input id={styles.date} type="date" value={this.state.date} onChange={this.changeDate} required />
-                    </div>
-                    {button}
-                </form>
-
-            </div>
-        );
+    let button;
+    if (date == "" || desc == "") {
+        button = <button className={styles.disabled} disabled>Add Task</button>
     }
+    else {
+        button = <button id={styles.button} >Add Task</button>
+    }
+
+    return (
+        <div id={styles.Input}>
+            <h2 id={styles.h2}>Add Tasks</h2>
+            <form className={styles.form} onSubmit={submit}>
+                <input id={styles.desc} type="text" value={desc} onChange={changeDesc} placeholder="Task Description" required />
+                <div id={styles.dateDiv}>
+                    <label id={styles.dateLabel}>Date Due:</label>
+                    <input id={styles.date} type="date" value={date} onChange={changeDate} required />
+                </div>
+                {button}
+            </form>
+
+        </div>
+    );
 
 }
 
