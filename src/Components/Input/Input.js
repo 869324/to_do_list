@@ -11,6 +11,7 @@ import { addTask } from '../Redux/todoReducer';
 function Input(props) {
     const tasks = useSelector(state => state);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [desc, setDesc] = useState("");
     const [date, setDate] = useState("");
@@ -46,12 +47,15 @@ function Input(props) {
         };
 
         dispatch(addTask(task));
+
+        setDate("");
+        setDesc("");
+
         swal("Task has been added!", {
             icon: "success",
         });
 
-        // const navigate = useNavigate();
-        // navigate("/");
+        navigate("/");
     }
 
     let button;
