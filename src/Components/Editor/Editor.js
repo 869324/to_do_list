@@ -27,6 +27,9 @@ export default function Editor(props) {
             date: date,
             completed: props.task.completed
         }));
+
+        props.setEditor(false)
+
         swal("Task has been updated!", {
             icon: "success",
         });
